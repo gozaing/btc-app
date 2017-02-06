@@ -3,7 +3,7 @@ class Tasks::Batch
     require 'net/http'
     require 'uri'
 
-    uri = URI.parse("https://api.bitflyer.jp")
+    uri = URI.parse(Settings.bitflyer[:api_path])
     uri.path = '/v1/board'
     uri.query = ''
 
