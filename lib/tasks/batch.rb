@@ -4,7 +4,8 @@ class Tasks::Batch
     require 'uri'
 
     uri = URI.parse(Settings.bitflyer[:api_path])
-    uri.path = '/v1/board'
+    #uri.path = '/v1/board'
+    uri.path = '/v1/ticker'
     uri.query = ''
 
     https = Net::HTTP.new(uri.host, uri.port)
