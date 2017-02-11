@@ -6,6 +6,18 @@ class Tasks::Batch
 
     puts "Hello, logs!"
 
+    #logger = Logger.new(Rails.root.join('log', "#{Rails.env}.log"))
+
+    #begin
+    #  logger.info("Start")
+    #  ticker = Ticker.new
+    #  ticker.save
+    #rescue => e
+    #  logger.error("Unhandled exception! #{e} : #{e.backtrace.inject(result = "") { |result, stack| result += "from:#{stack}\n" }}")
+    #ensure
+    #  logger.info("Finish")
+    #end
+
     #uri = URI.parse(Settings.bitflyer[:api_path])
     #uri = URI.parse('https://api.bitflyer.jp')
     #uri.path = '/v1/ticker'
@@ -16,7 +28,7 @@ class Tasks::Batch
     #response = https.get uri.request_uri
     #result = JSON.parse(response.body)
 
-    ticker = Ticker.new
+    #ticker = Ticker.new
     #ticker.tick_id              = result['tick_id']
     #ticker.best_bid             = result['best_bid']
     #ticker.best_ask             = result['best_ask']
@@ -27,7 +39,7 @@ class Tasks::Batch
     #ticker.ltp                  = result['ltp']
     #ticker.volume               = result['volume']
     #ticker.volume_by_product    = result['volume_by_product']
-    ticker.save
+    #ticker.save
 
   end
 end
