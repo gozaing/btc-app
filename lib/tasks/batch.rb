@@ -4,7 +4,8 @@ class Tasks::Batch
     require 'uri'
     require 'json'
 
-    uri = URI.parse(Settings.bitflyer[:api_path])
+    #uri = URI.parse(Settings.bitflyer[:api_path])
+    uri = URI.parse('https://api.bitflyer.jp')
     #uri.path = '/v1/board'
     uri.path = '/v1/ticker'
     uri.query = ''
