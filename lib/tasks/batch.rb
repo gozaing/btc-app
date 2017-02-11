@@ -1,8 +1,8 @@
 class Tasks::Batch
   def self.execute
-    require 'net/http'
-    require 'uri'
-    require 'json'
+    #require 'net/http'
+    #require 'uri'
+    #require 'json'
 
     #uri = URI.parse(Settings.bitflyer[:api_path])
     #uri = URI.parse('https://api.bitflyer.jp')
