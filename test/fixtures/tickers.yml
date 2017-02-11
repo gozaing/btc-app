@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tick_id: 1
+  best_bid: 9.99
+  best_ask: 9.99
+  best_bid_size: 9.99
+  best_ask_size: 9.99
+  total_bid_depth: 9.99
+  total_ask_depth: 9.99
+  ltp: 9.99
+  volume: 9.99
+  volume_by_product: 9.99
+
+two:
+  tick_id: 1
+  best_bid: 9.99
+  best_ask: 9.99
+  best_bid_size: 9.99
+  best_ask_size: 9.99
+  total_bid_depth: 9.99
+  total_ask_depth: 9.99
+  ltp: 9.99
+  volume: 9.99
+  volume_by_product: 9.99
