@@ -13,6 +13,10 @@ class Tasks::Batch
     response = https.get uri.request_uri
     result = JSON.parse(response.body)
 
+    current_ltp = result['ltp'].to_i
+    last_ltp    = Ticker.last.ltp.to_i
+    diff_ltp    = current_ltp - last_ltp
+
     ticker = Ticker.new
     ticker.tick_id              = result['tick_id']
     ticker.best_bid             = result['best_bid']
@@ -25,10 +29,6 @@ class Tasks::Batch
     ticker.volume               = result['volume']
     ticker.volume_by_product    = result['volume_by_product']
     ticker.save
-
-    current_ltp = result['ltp'].to_i
-    last_ltp    = Ticker.last.ltp.to_i
-    diff_ltp    = last_ltp - current_ltp
 
     diff = Difference.new
     diff.diff_id   = ticker.tick_id
