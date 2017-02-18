@@ -4,9 +4,7 @@ class Tasks::Batch
     require 'uri'
     require 'json'
 
-    #uri = URI.parse(Settings.bitflyer[:api_path])
     uri = URI.parse('https://api.bitflyer.jp')
-    #uri.path = '/v1/board'
     uri.path = '/v1/ticker'
     uri.query = ''
 
@@ -27,6 +25,17 @@ class Tasks::Batch
     ticker.volume               = result['volume']
     ticker.volume_by_product    = result['volume_by_product']
     ticker.save
+
+    current_ltp = result['ltp'].to_i
+    last_ltp    = Ticker.last.ltp.to_i
+    #diff_ltp    = last_ltp - current_ltp
+    diff_ltp    = 100 - 102
+
+    diff = Difference.new
+    diff.diff_id   = ticker.tick_id
+    diff.ltp       = result['ltp'].to_i
+    diff.diff      = diff_ltp
+    diff.save
 
   end
 end

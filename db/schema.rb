@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170211075445) do
+ActiveRecord::Schema.define(version: 20170218141233) do
 
   create_table "Tickers", force: :cascade do |t|
     t.integer  "tick_id"
@@ -25,6 +25,14 @@ ActiveRecord::Schema.define(version: 20170211075445) do
     t.string   "volume_by_product"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "differences", force: :cascade do |t|
+    t.integer  "diff_id"
+    t.decimal  "ltp"
+    t.decimal  "diff"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
