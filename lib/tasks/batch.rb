@@ -28,8 +28,7 @@ class Tasks::Batch
 
     current_ltp = result['ltp'].to_i
     last_ltp    = Ticker.last.ltp.to_i
-    #diff_ltp    = last_ltp - current_ltp
-    diff_ltp    = 100 - 102
+    diff_ltp    = last_ltp - current_ltp
 
     diff = Difference.new
     diff.diff_id   = ticker.tick_id
