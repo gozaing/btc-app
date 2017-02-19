@@ -36,5 +36,13 @@ class Tasks::Batch
     diff.diff      = diff_ltp
     diff.save
 
+    # bid timing check
+    hash = ActiveRecord::Base.connection.select_all(
+      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 6) sub1").to_hash
+    evaluate_ltp = hash[0]["diff"]
+    if evaluate_ltp > 30 then
+      # execute bid task
+    end
+
   end
 end
