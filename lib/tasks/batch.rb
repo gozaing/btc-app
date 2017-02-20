@@ -4,7 +4,8 @@ class Tasks::Batch
     require 'uri'
     require 'json'
 
-    uri = URI.parse('https://api.bitflyer.jp')
+    env_uri = ENV['BITFLYER_API_URI']
+    uri = URI.parse(env_uri)
     uri.path = '/v1/ticker'
     uri.query = ''
 
@@ -38,10 +39,11 @@ class Tasks::Batch
 
     # bid timing check
     hash = ActiveRecord::Base.connection.select_all(
-      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 6) sub1").to_hash
+      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 10) sub1").to_hash
     evaluate_ltp = hash[0]["diff"]
-    if evaluate_ltp > 30 then
+    if evaluate_ltp > 50 then
       # execute bid task
+      Tasks::Trade.execute
     end
 
   end
