@@ -5,23 +5,50 @@ class Tasks::Trade
     require "uri"
     require "openssl"
 
-    key = ENV['BITFLYER_API_KEY']
+    key    = ENV['BITFLYER_API_KEY']
     secret = ENV['BITFLYER_API_TOKEN']
 
     timestamp = Time.now.to_i.to_s
     method = "POST"
-    api_url = ENV['BITFLYER_API_URI']
-    uri = URI.parse(api_url)
-    uri.path = "/v1/me/sendchildorder"
-    body ='
-      {
+    uri = URI.parse(ENV['BITFLYER_API_URI'])
+    uri.path = "/v1/me/sendparentorder"
+
+    last_ltp = Difference.last.ltp.to_i
+    ltp_high = (last_ltp + (last_ltp * 0.001)).floor
+    ltp_low  = (last_ltp - (last_ltp * 0.001)).floor
+    ltp_sell = (ltp_low  - (ltp_low  * 0.001)).floor
+
+    timestamp = Time.now.to_i.to_s
+    method = "POST"
+    uri = URI.parse("https://api.bitflyer.jp")
+    uri.path = "/v1/me/sendparentorder"
+
+    body = '{
+      "order_method": "IFDOCO",
+      "time_in_force": "GTC",
+      "parameters": [{
         "product_code": "BTC_JPY",
-        "child_order_type": "MARKET",
+        "condition_type": "MARKET",
         "side": "BUY",
-        "size": 0.001,
-        "minute_to_expire": 525600,
-        "time_in_force": "GTC"
+        "size": 0.001
+      },
+      {
+      "product_code": "BTC_JPY",
+      "condition_type": "LIMIT",
+      "side": "SELL",
+      "price": ' + ltp_high.to_s + ',
+      "size": 0.001
+      },
+      {
+      "product_code": "BTC_JPY",
+      "condition_type": "STOP_LIMIT",
+      "side": "SELL",
+      "price": ' + ltp_sell.to_s + ',
+      "trigger_price": ' + ltp_low.to_s + ',
+      "size": 0.001
+      }]
     }'
+
     text = timestamp + method + uri.request_uri + body
     sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret, text)
 
@@ -37,5 +64,6 @@ class Tasks::Trade
     https.use_ssl = true
     response = https.request(options)
     puts response.body
+
   end
 end
