@@ -30,14 +30,14 @@ class Tasks::Trade
         "product_code": "BTC_JPY",
         "condition_type": "MARKET",
         "side": "BUY",
-        "size": 0.01
+        "size": 0.001
       },
       {
       "product_code": "BTC_JPY",
       "condition_type": "LIMIT",
       "side": "SELL",
       "price": ' + ltp_high.to_s + ',
-      "size": 0.01
+      "size": 0.001
       },
       {
       "product_code": "BTC_JPY",
@@ -45,7 +45,7 @@ class Tasks::Trade
       "side": "SELL",
       "price": ' + ltp_sell.to_s + ',
       "trigger_price": ' + ltp_low.to_s + ',
-      "size": 0.01
+      "size": 0.001
       }]
     }'
 
