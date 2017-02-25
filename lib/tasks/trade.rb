@@ -14,9 +14,9 @@ class Tasks::Trade
     uri.path = "/v1/me/sendparentorder"
 
     last_ltp = Difference.last.ltp.to_i
-    ltp_high = (last_ltp + (last_ltp * 0.001)).floor
-    ltp_low  = (last_ltp - (last_ltp * 0.001)).floor
-    ltp_sell = (ltp_low  - (ltp_low  * 0.001)).floor
+    ltp_high = (last_ltp + (last_ltp * 0.01)).floor
+    ltp_low  = (last_ltp - (last_ltp * 0.01)).floor
+    ltp_sell = (ltp_low  - (ltp_low  * 0.01)).floor
 
     timestamp = Time.now.to_i.to_s
     method = "POST"
@@ -30,14 +30,14 @@ class Tasks::Trade
         "product_code": "BTC_JPY",
         "condition_type": "MARKET",
         "side": "BUY",
-        "size": 0.001
+        "size": 0.01
       },
       {
       "product_code": "BTC_JPY",
       "condition_type": "LIMIT",
       "side": "SELL",
       "price": ' + ltp_high.to_s + ',
-      "size": 0.001
+      "size": 0.01
       },
       {
       "product_code": "BTC_JPY",
@@ -45,7 +45,7 @@ class Tasks::Trade
       "side": "SELL",
       "price": ' + ltp_sell.to_s + ',
       "trigger_price": ' + ltp_low.to_s + ',
-      "size": 0.001
+      "size": 0.01
       }]
     }'
 
@@ -63,7 +63,12 @@ class Tasks::Trade
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
     response = https.request(options)
-    puts response.body
+
+    str = response.body.match("parent_order_acceptance_id\":\"(.+)\"}")
+
+    p = Parent.new
+    p.parent_order_acceptance_id = str[1]
+    p.save
 
   end
 end
