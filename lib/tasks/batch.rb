@@ -41,10 +41,10 @@ class Tasks::Batch
     hash = ActiveRecord::Base.connection.select_all(
       "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 10) sub1").to_hash
     evaluate_ltp = hash[0]["diff"]
-    #if evaluate_ltp > 200 then
+    if evaluate_ltp > 200 then
       # execute bid task
       Tasks::Trade.execute
-    #end
+    end
 
   end
 end
