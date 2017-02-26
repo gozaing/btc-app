@@ -15,8 +15,8 @@ class Tasks::Trade
 
     last_ltp = Difference.last.ltp.to_i
     ltp_high = (last_ltp + (last_ltp * 0.01)).floor
-    ltp_low  = (last_ltp - (last_ltp * 0.01)).floor
-    ltp_sell = (ltp_low  - (ltp_low  * 0.01)).floor
+    ltp_low  = (last_ltp - (last_ltp * 0.005)).floor
+    ltp_sell = (ltp_low  - (ltp_low  * 0.004)).floor
 
     body = '{
       "order_method": "IFDOCO",
@@ -25,14 +25,14 @@ class Tasks::Trade
         "product_code": "BTC_JPY",
         "condition_type": "MARKET",
         "side": "BUY",
-        "size": 0.001
+        "size": 0.01
       },
       {
       "product_code": "BTC_JPY",
       "condition_type": "LIMIT",
       "side": "SELL",
       "price": ' + ltp_high.to_s + ',
-      "size": 0.001
+      "size": 0.01
       },
       {
       "product_code": "BTC_JPY",
@@ -40,7 +40,7 @@ class Tasks::Trade
       "side": "SELL",
       "price": ' + ltp_sell.to_s + ',
       "trigger_price": ' + ltp_low.to_s + ',
-      "size": 0.001
+      "size": 0.01
       }]
     }'
 
