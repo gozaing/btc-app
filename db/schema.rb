@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170225143045) do
+ActiveRecord::Schema.define(version: 20170226135403) do
 
   create_table "Tickers", force: :cascade do |t|
     t.integer  "tick_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20170225143045) do
     t.string   "parent_order_acceptance_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.string   "status"
   end
 
 end

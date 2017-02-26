@@ -67,6 +67,7 @@ class Tasks::Trade
     p = Parent.new
     p.parent_order_id            = parent_id
     p.parent_order_acceptance_id = str[1]
+    p.status = "ACTIVE"
     p.save
 
   end
