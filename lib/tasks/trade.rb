@@ -16,7 +16,7 @@ class Tasks::Trade
     last_ltp = Difference.last.ltp.to_i
     ltp_high = (last_ltp + (last_ltp * 0.01)).floor
     ltp_low  = (last_ltp - (last_ltp * 0.005)).floor
-    ltp_sell = (ltp_low  - (ltp_low  * 0.004)).floor
+    ltp_sell = (ltp_low  - (ltp_low  * 0.0045)).floor
 
     body = '{
       "order_method": "IFDOCO",
