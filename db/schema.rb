@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170226135403) do
+ActiveRecord::Schema.define(version: 20170301125554) do
 
   create_table "Tickers", force: :cascade do |t|
     t.integer  "tick_id"
@@ -25,6 +25,22 @@ ActiveRecord::Schema.define(version: 20170226135403) do
     t.string   "volume_by_product"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+  end
+
+  create_table "children", force: :cascade do |t|
+    t.string   "parent_order_id"
+    t.string   "child_order_id"
+    t.string   "child_order_type"
+    t.string   "side"
+    t.decimal  "price"
+    t.decimal  "average_price"
+    t.decimal  "size"
+    t.string   "child_order_state"
+    t.datetime "child_order_date"
+    t.string   "child_order_acceptance_id"
+    t.decimal  "executed_size"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "differences", force: :cascade do |t|
