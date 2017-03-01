@@ -12,7 +12,8 @@ class Tasks::Result
     method = "GET"
     uri = URI.parse(ENV['BITFLYER_API_URI'])
     uri.path = "/v1/me/getchildorders"
-    uri.query = "child_order_state=COMPLETED&parent_order_id=JCP20170226-140823-058260"
+    # TODO get parent_order_id from Parent model
+    uri.query = "child_order_state=COMPLETED&parent_order_id=#{paremt_order_id}"
 
     text = timestamp + method + uri.request_uri
     sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret, text)
