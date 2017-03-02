@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  parent_order_id: MyString
+  buy_child_order_id: MyString
+  buy_price: 
+  sell_child_order_id: MyString
+  sel_price: 
+  diff: 
+
+two:
+  parent_order_id: MyString
+  buy_child_order_id: MyString
+  buy_price: 
+  sell_child_order_id: MyString
+  sel_price: 
+  diff: 
