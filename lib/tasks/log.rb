@@ -32,6 +32,9 @@ class Tasks::Log
       response = https.request(options)
       res      = JSON.parse(response.body)
 
+      # needed buy and sell responses
+      if res.count === 1 then next
+
       res.each do |row|
         c = Child.new
         c.parent_order_id           = "#{parent_order_id}"
