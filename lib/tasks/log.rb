@@ -11,7 +11,7 @@ class Tasks::Log
     timestamp = Time.now.to_i.to_s
     nowstr    = (Time.now - 3.hours).strftime('%Y/%m/%d %H:%M:%S')
     method = "GET"
-    parents = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '#{nowstr}'").limit(10)
+    parents = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '#{nowstr}'").limit(100)
     parents.each do |parent|
 
       parent_order_id = parent.parent_order_id
