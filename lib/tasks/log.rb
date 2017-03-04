@@ -1,4 +1,4 @@
-class Tasks::Result
+class Tasks::Log
   def self.execute
     require "net/http"
     require "uri"
@@ -9,12 +9,12 @@ class Tasks::Result
     secret = ENV['BITFLYER_API_TOKEN']
 
     timestamp = Time.now.to_i.to_s
+    nowstr    = (Time.now - 3.hours).strftime('%Y/%m/%d %H:%M:%S')
     method = "GET"
-   # TODO get parent_order_id from Parent model
-    parents = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '2017/3/1'")
-    parents.each do |p|
+    parents = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '#{nowstr}'").limit(10)
+    parents.each do |parent|
 
-      parent_order_id = p.parent_order_id
+      parent_order_id = parent.parent_order_id
       uri = URI.parse(ENV['BITFLYER_API_URI'])
       uri.path = "/v1/me/getchildorders"
       uri.query = "child_order_state=COMPLETED&parent_order_id=#{parent_order_id}"
@@ -31,11 +31,10 @@ class Tasks::Result
       https.use_ssl = true
       response = https.request(options)
       res      = JSON.parse(response.body)
-      p res
 
       res.each do |row|
         c = Child.new
-        c.parent_order_id           = "#{parent_order_id}'
+        c.parent_order_id           = "#{parent_order_id}"
         c.child_order_id            = row['child_order_id']
         c.child_order_type          = row['child_order_type']
         c.side                      = row['side']
@@ -48,31 +47,34 @@ class Tasks::Result
         c.executed_size             = row['executed_size']
         c.save
       end
+
+      # get trade log buy and sell
+      buy_child = Child.where("parent_order_id='#{parent_order_id}' and side='BUY'").first
+      buy_child_order_id = buy_child.child_order_id
+      buy_price          = buy_child.average_price
+
+      sell_child = Child.where("parent_order_id='#{parent_order_id}' and side='SELL'").first
+      sell_child_order_id = sell_child.child_order_id
+      sell_price          = sell_child.average_price
+
+      # set result of trade
+      logger = Logger.new(Rails.root.join('log', "#{Rails.env}.log"))
+      begin
+        r = Result.new
+        r.parent_order_id      = parent_order_id
+        r.buy_child_order_id   = buy_child_order_id
+        r.buy_price            = buy_price
+        r.sell_child_order_id  = sell_child_order_id
+        r.sell_price           = sell_price
+        r.diff                 = buy_price - sell_price
+        r.save
+      rescue => e
+        logger.error("Unhandled exception! #{e} : #{e.backtrace.inject(result = "") { |result, stack| result += "from:#{stack}\n" }}")
+      end
+
+      # parent status change 
+      parent.status = "COMPLETED"
+      parent.save
     end
-
-=begin
-    p 'start trade log'
-    # get trade log buy and sell
-    buy_child = Child.where("parent_order_id='#{parent_order_id}' and side='BUY'")
-    buy_child_order_id = buy_child.child_order_id
-    p buy_child_order_id
-    buy_price          = buy_child.average_price
-    p buy_price
-
-    sell_child = Child.where("parent_order_id='#{parent_order_id}' and side='SELL'")
-    sell_child_order_id = sell_child.child_order_id
-    sell_price          = sell_child.average_price
-
-    # set result of trade
-    result = Result.new
-    result.parent_order_id      = parent_order_id
-    result.buy_child_order_id   = buy_child_order_id
-    result.buy_price            = buy_price
-    result.sell_child_order_id  = sell_child_order_id
-    result.sell_price           = sell_price
-    result.diff                 = buy_price - sell_price
-    result.save
-=end
-
   end
 end
