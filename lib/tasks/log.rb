@@ -33,7 +33,10 @@ class Tasks::Log
       res      = JSON.parse(response.body)
 
       # needed buy and sell responses
-      if res.count === 1 then next
+      #puts res.length
+      if res.length === 1 then
+        next
+      end
 
       res.each do |row|
         c = Child.new
