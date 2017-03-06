@@ -39,7 +39,7 @@ class Tasks::Batch
 
     # bid timing check
     hash = ActiveRecord::Base.connection.select_all(
-      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 5) sub1").to_hash
+      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 2) sub1").to_hash
     evaluate_ltp = hash[0]["diff"]
     if evaluate_ltp > 50 then
       p "go bid"

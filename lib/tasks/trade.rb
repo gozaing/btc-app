@@ -20,7 +20,6 @@ class Tasks::Trade
 
     body = '{
       "order_method": "IFDOCO",
-      "minute_to_expire": 180,
       "time_in_force": "GTC",
       "parameters": [{
         "product_code": "BTC_JPY",
