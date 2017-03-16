@@ -23,7 +23,7 @@ from results").to_hash
 
     # send mail of result
     # TODO: ActionMailer の template に上の変数を展開
-    DailyNotifierMailer.notify
+    DailyNotifierMailer.notify.deliver
 
   end
 end
