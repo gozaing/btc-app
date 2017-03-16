@@ -5,12 +5,12 @@ class Tasks::Result
     hash = ActiveRecord::Base.connection.select_all(
       "select
   count(*) total_count
-,(select count(diff) from results where created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_count
- ,(select sum(diff) from results where created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_sum
- ,(select sum(diff) from results where diff < 0 and created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_lose
- ,(select count(diff) from results where diff < 0 and created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_lose_count
- ,(select sum(diff) from results where diff >= 0 and created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_win
- ,(select count(diff) from results where diff >= 0 and created_at > '#{1.days.ago} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day}') day_win_count
+,(select count(diff) from results where created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')}' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_count
+ ,(select sum(diff) from results where created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')} 00:00:00' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_sum
+ ,(select sum(diff) from results where diff < 0 and created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')}' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_lose
+ ,(select count(diff) from results where diff < 0 and created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')}' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_lose_count
+ ,(select sum(diff) from results where diff >= 0 and created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')}' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_win
+ ,(select count(diff) from results where diff >= 0 and created_at > '#{1.days.ago.strftime('%Y/%m/%d 00:00:00')}' and created_at < '#{Time.zone.now.beginning_of_day.strftime('%Y/%m/%d 00:00:00')}') day_win_count
 from results").to_hash
 
     total_count    = hash[0]["total_count"]
