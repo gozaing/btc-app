@@ -23,16 +23,17 @@ from results").to_hash
 
     # send mail of result
     # TODO: ActionMailer の template に上の変数を展開
-    mail = {total_count: total_count,
-            day_count: day_count,
-            day_sum: day_sum,
-            day_lose: day_lose,
-            day_lose_count: day_lose_count,
-            day_win: day_win,
-            day_win_count: day_win_count
+    mail_content = {
+          total_count:    total_count,
+          day_count:      day_count,
+          day_sum:        day_sum,
+          day_lose:       day_lose,
+          day_lose_count: day_lose_count,
+          day_win:        day_win,
+          day_win_count:  day_win_count
            }
 
-    DailyNotifierMailer.notify(mail).deliver
+    DailyNotifierMailer.notify(mail_content).deliver
 
   end
 end
