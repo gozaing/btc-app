@@ -3,7 +3,7 @@ class DailyNotifierMailer < ApplicationMailer
   def notify(arg)
 
     subject = "result #{1.days.ago.beginning_of_day}"
-    body    = "
+    body    = <<"EOS"
 total_count    => #{arg[:total_count]} \n
 day_count      => #{arg[:day_count]} \n
 day_sum        => #{arg[:day_sum]} \n
@@ -11,7 +11,7 @@ day_lose       => #{arg[:day_lose]} \n
 day_lose_count => #{arg[:day_lose_count]} \n
 day_win        => #{arg[:day_win]} \n
 day_win_count  => #{arg[:day_win_count]}
-"
+EOS
 
     mail(to: "#{ENV['MAIL_TO']}",
          subject: "#{subject}",
