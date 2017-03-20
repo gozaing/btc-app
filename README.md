@@ -1,25 +1,37 @@
-# README
+# Trade BitCoin on Bitflyer
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* BitCoin トレード Ver 0.1.0
 
-Things you may want to cover:
+## Require
+* BitFlyer API key / password
+* Heroku Account
+* SendGrid Account
 
-* Ruby version
+## Set Environment
+* Local
+```
+export BITFLYER_API_KEY="xxxx"
+export BITFLYER_API_TOKEN="xxxx"
+export BITFLYER_API_URI="xxxx"
+export DATABASE_NAME="xxxx"
+export DATABASE_USER_NAME="xxxx'"
+export DATABASE_USER_PASSWORD="xxxx'"
+export SENDGRID_USERNAME="xxxx"
+export SENDGRID_PASSWORD="xxxx"
+export MAIL_FROM="xxxx"
+export MAIL_TO="xxxx";
+```
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# btc-app
+* Heroku
+```
+heroku config:set BITFLYER_API_KEY="xxxx"
+heroku config:set BITFLYER_API_TOKEN="xxxx"
+heroku config:set BITFLYER_API_URI="xxxx"
+heroku config:set DATABASE_NAME="xxxx"
+heroku config:set DATABASE_USER_NAME="xxxx"
+heroku config:set DATABASE_USER_PASSWORD="xxxx"
+heroku config:set SENDGRID_USERNAME="xxxx"
+heroku config:set SENDGRID_PASSWORD="xxxx"
+heroku config:set MAIL_FROM="xxxx"
+heroku config:set MAIL_TO="xxxx"
+```
