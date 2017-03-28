@@ -6,10 +6,10 @@ class Tasks::Result
       "select
   count(*) total_count
 ,(select count(diff) from results where created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_count
- ,(select sum(diff) from results where created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_sum
- ,(select sum(diff) from results where diff < 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_lose
+ ,(select COALESCE(sum(diff), 0) from results where created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_sum
+ ,(select COALESCE(sum(diff), 0) from results where diff < 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_lose
  ,(select count(diff) from results where diff < 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_lose_count
- ,(select sum(diff) from results where diff >= 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_win
+ ,(select COALESCE(sum(diff), 0) from results where diff >= 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_win
  ,(select count(diff) from results where diff >= 0 and created_at > '#{1.days.ago.beginning_of_day}' and created_at < '#{Time.zone.now.beginning_of_day}') day_win_count
 from results").to_hash
 
