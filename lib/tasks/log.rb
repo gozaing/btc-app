@@ -10,16 +10,16 @@ class Tasks::Log
 
     timestamp = Time.now.to_i.to_s
     nowstr    = (Time.now - 3.hours).strftime('%Y/%m/%d %H:%M:%S')
-    method = "GET"
-    parents = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '#{nowstr}'").limit(100)
+    method    = "GET"
+    parents  = Parent.where("parent_order_id is not null and status = 'ACTIVE' and created_at < '#{nowstr}'").limit(100)
     parents.each do |parent|
 
       parent_order_id = parent.parent_order_id
-      uri = URI.parse(ENV['BITFLYER_API_URI'])
-      uri.path = "/v1/me/getchildorders"
+      uri       = URI.parse(ENV['BITFLYER_API_URI'])
+      uri.path  = "/v1/me/getchildorders"
       uri.query = "child_order_state=COMPLETED&parent_order_id=#{parent_order_id}"
-      text = timestamp + method + uri.request_uri
-      sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret, text)
+      text      = timestamp + method + uri.request_uri
+      sign      = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret, text)
 
       options = Net::HTTP::Get.new(uri.request_uri, initheader = {
         "ACCESS-KEY" => key,
@@ -29,8 +29,8 @@ class Tasks::Log
 
       https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true
-      response = https.request(options)
-      res      = JSON.parse(response.body)
+      response      = https.request(options)
+      res           = JSON.parse(response.body)
 
       # needed buy and sell responses
       #puts res.length
@@ -78,7 +78,7 @@ class Tasks::Log
         logger.error("Unhandled exception! #{e} : #{e.backtrace.inject(result = "") { |result, stack| result += "from:#{stack}\n" }}")
       end
 
-      # parent status change 
+      # parent status change
       parent.status = "COMPLETED"
       parent.save
     end

@@ -9,9 +9,9 @@ class Tasks::Trade
     secret = ENV['BITFLYER_API_TOKEN']
 
     timestamp = Time.now.to_i.to_s
-    method = "POST"
-    uri = URI.parse(ENV['BITFLYER_API_URI'])
-    uri.path = "/v1/me/sendparentorder"
+    method    = "POST"
+    uri       = URI.parse(ENV['BITFLYER_API_URI'])
+    uri.path  = "/v1/me/sendparentorder"
 
     last_ltp = Difference.last.ltp.to_i
     ltp_high = (last_ltp + (last_ltp * 0.003)).floor
@@ -83,9 +83,9 @@ class Tasks::Trade
     secret = ENV['BITFLYER_API_TOKEN']
 
     timestamp = Time.now.to_i.to_s
-    method = "GET"
-    uri = URI.parse(ENV['BITFLYER_API_URI'])
-    uri.path = "/v1/me/getparentorder"
+    method    = "GET"
+    uri       = URI.parse(ENV['BITFLYER_API_URI'])
+    uri.path  = "/v1/me/getparentorder"
     uri.query = "parent_order_acceptance_id=" + accept_id
 
     text = timestamp + method + uri.request_uri
