@@ -44,7 +44,8 @@ class Tasks::Batch
     if evaluate_ltp > 50 then
       p "go bid"
       # execute bid task
-      Tasks::Trade.execute
+      # trade stop
+      #Tasks::Trade.execute
     end
 
   end
