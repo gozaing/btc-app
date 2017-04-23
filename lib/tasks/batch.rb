@@ -4,15 +4,15 @@ class Tasks::Batch
     require 'uri'
     require 'json'
 
-    env_uri = ENV['BITFLYER_API_URI']
-    uri = URI.parse(env_uri)
-    uri.path = '/v1/ticker'
+    env_uri   = ENV['BITFLYER_API_URI']
+    uri       = URI.parse(env_uri)
+    uri.path  = '/v1/ticker'
     uri.query = ''
 
     https = Net::HTTP.new(uri.host, uri.port)
     https.use_ssl = true
     response = https.get uri.request_uri
-    result = JSON.parse(response.body)
+    result   = JSON.parse(response.body)
 
     current_ltp = result['ltp'].to_i
     last_ltp    = Ticker.last.ltp.to_i
@@ -39,7 +39,7 @@ class Tasks::Batch
 
     # bid timing check
     hash = ActiveRecord::Base.connection.select_all(
-      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 2) sub1").to_hash
+      "select sum(sub1.diff) diff from (select diff from differences order by created_at desc limit 5) sub1").to_hash
     evaluate_ltp = hash[0]["diff"]
     if evaluate_ltp > 100 then
       p "go bid"
